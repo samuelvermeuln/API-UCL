@@ -20,21 +20,13 @@ const puppeteer = require("puppeteer");
 
   // await page.click('[href="#2021-1"]');
 
-  const valueNota = await page.evaluate(() => {
-    // count = []
-    data = [];
+  dados_api = [];
 
+  const valueNota = await page.evaluate(() => {
+    DadosUser = [];
     const Numerocoluna = document.querySelector(
       "#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody"
     ).rows.length;
-
-    const NumeroLinhaDaColuna = document.querySelector(
-      "#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(1)"
-    ).cells.length;
-
-    // const elemento = document.querySelector(
-    //   "#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(1) > td:nth-child(1)"
-    // ).innerText;
 
     for (let i = 1; i < Numerocoluna + 1; i++) {
       const NumeroLinhaColuna = document.querySelector(
@@ -42,28 +34,67 @@ const puppeteer = require("puppeteer");
       ).cells.length;
       // count.push({ numero: NumeroLinhaDaColuna });
 
-      for (let j = 1; j < NumeroLinhaColuna + 1; j++) {
-        const Grupo = document
-          .querySelector(
-            `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(${j})`
-          )
-          .innerText.replace(/\s/g, "");
-
-        const titleObjeto = document.querySelector(
+      const Grupo = document
+        .querySelector(
           `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(1)`
-        ).innerText;
+        )
+        .innerText.replace(/\s/g, "");
 
-        data.push({
+      const Data = document
+        .querySelector(
+          `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(2)`
+        )
+        .innerText.replace(/\s/g, "");
+
+      const Avaliacao = document
+        .querySelector(
+          `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(3)`
+        )
+        .innerText.replace(/\s/g, "");
+
+      const Peso = document
+        .querySelector(
+          `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(4)`
+        )
+        .innerText.replace(/\s/g, "");
+
+      const Nota = document
+        .querySelector(
+          `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(5)`
+        )
+        .innerText.replace(/\s/g, "");
+
+      const Faltou = document
+        .querySelector(
+          `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(7)`
+        )
+        .innerText.replace(/\s/g, "");
+
+      DadosUser.push(
+        (NOTAS = {
           Grupo: Grupo,
-        });
-      }
+          Data: Data,
+          Avaliacao: Avaliacao,
+          Peso: Peso,
+          Nota: Nota,
+          Faltou: Faltou,
+        })
+      );
+
+      const ano = [
+        document.querySelector("#aluno_notas > div > div:nth-child(1) > ul"),
+      ]
+        .map((element) => element.innerText)
+        .join("\n");
+
+      DadosUser.push({ Ano: ano.split(/[\n,]+/) });
     }
 
-    return data;
+    return notas;
   });
-  // objeto: titleObjeto,
+  dados_api.push((Notas = { valueNota }));
 
-  console.log("=>>> valueNota =>> ", valueNota);
+  console.log("=>>> valueNota =>> ", dados_api);
 
   await browser.close();
 })();
