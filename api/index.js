@@ -136,9 +136,9 @@ const puppeteer = require("puppeteer");
         return Materias_professor;
     });
 
-//   dados_api.push({ notas: notas_user, ano: ano_user });
+  dados_api.push({ notas: notas_user, ano: ano_user, head_user: head_user });
 
-  console.log("=>>> valueNota =>> ", head_user);
+  console.log("=>>> valueNota =>> ", JSON.stringify(dados_api));
 
   await browser.close();
 })();
