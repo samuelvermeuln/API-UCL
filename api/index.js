@@ -18,127 +18,128 @@ const puppeteer = require("puppeteer");
 
   await page.goto("https://eies.ucl.br/webaluno/quadrodenotas/");
 
-  // await page.click('[href="#2021-1"]');
+  await page.waitForTimeout(2000);
+  
+  await page.click('[class="collapsible-header active"]');
 
-  dados_api = [];
+  await page.waitForTimeout(1500);
 
     const notas_user = await page.evaluate(() => {
-        DadosUser = [];
-
-        const Numerocoluna = document.querySelector(
-        "#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody"
-        ).rows.length;
-
-        for (let i = 1; i < Numerocoluna + 1; i++) {
-                
-            const NumeroLinhaColuna = document.querySelector(
-            `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i})`
-            ).cells.length;
-            // count.push({ numero: NumeroLinhaDaColuna });
-
-            const Grupo = document
-            .querySelector(
-                `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(1)`
-            )
-            .innerText.replace(/\s/g, "");
-
-            const Data = document
-            .querySelector(
-                `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(2)`
-            )
-            .innerText.replace(/\s/g, "");
-
-            const Avaliacao = document
-            .querySelector(
-                `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(3)`
-            )
-            .innerText.replace(/\s/g, "");
-
-            const Peso = document
-            .querySelector(
-                `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(4)`
-            )
-            .innerText.replace(/\s/g, "");
-
-            const Nota = document
-            .querySelector(
-                `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(5)`
-            )
-            .innerText.replace(/\s/g, "");
-
-            const Faltou = document
-            .querySelector(
-                `#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody > tr:nth-child(${i}) > td:nth-child(7)`
-            )
-            .innerText.replace(/\s/g, "");
-
-            DadosUser.push(
-            (NOTAS = {
-                Grupo: Grupo,
-                Data: Data,
-                Avaliacao: Avaliacao,
-                Peso: Peso,
-                Nota: Nota,
-                Faltou: Faltou,
-            })
-            );
-
-        }
-
-        return DadosUser;
-    });
-
-    const ano_user = await page.evaluate(() => {
-        date = []
-
-        const ano = [document.querySelector("#aluno_notas > div > div:nth-child(1) > ul")]
-            .map((element) => element.innerText)
-            .join("\n");
-
-        date.push({ Ano: ano.split(/[\n,]+/) });
-
-        return date;  
-    });
-
-    const head_user = await page.evaluate(() => {
-        Materias_professor = []
-
-        const quantidade_de_materias = document
-          .querySelector("#\\32 021-2")
-          .innerText.split(/[\n,]+/)
+       DadosUser = [];
+      
+      try {
+        const quantidade_de_materias =
+          document.querySelector("#\\32 021-2 > ul").innerText
+          .split(/[\n,]+/)
           .filter((v) => v !== "keyboard_arrow_right")
           .filter((v) => v !== "").length;
 
-        for (let index = 1; index < quantidade_de_materias; index++) {
-          try {
-            const nome_Professor = document
+        // const Numerocoluna = document.querySelector(
+        // "#\\32 021-2 > ul > li.active > div.collapsible-body > table > tbody"
+        // ).rows.length;
+
+        for (let i = 1; i < quantidade_de_materias + 1 ; i++) {
+
+          const nome_Materia = document
+            .querySelector(
+              `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-header`
+            )
+            .innerText.split(/\s/g)
+            .filter((v) => v !== "keyboard_arrow_right");
+
+          const nome_Professor = document
+            .querySelector(
+              `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > ul > li.collection-item.dismissable > div`
+            )
+            .innerText.replace(/\s/g, "");
+
+          const numeroNotas = document.querySelector(
+            `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody`
+          ).rows.length;
+
+          for (let j = 1; j < numeroNotas + 1; j++) {
+
+            const grupo = document
               .querySelector(
-                `#\\32 021-2 > ul > li:nth-child(${index}) > div.collapsible-body > ul > li.collection-item.dismissable > div`
+                `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(1)`
               )
               .innerText.replace(/\s/g, "");
 
-            const nome_Materia = document
+            const data = document
               .querySelector(
-                `#\\32 021-2 > ul > li:nth-child(${index}) > div.collapsible-header`
+                `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(2)`
               )
               .innerText.replace(/\s/g, "");
 
-            Materias_professor.push({
-              nome_Professor: nome_Professor,
-              nome_Materia: nome_Materia,
+            const avalicao = document
+              .querySelector(
+                `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(3)`
+              )
+              .innerText.replace(/\s/g, "");
+
+            const peso = document
+              .querySelector(
+                `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(4)`
+              )
+              .innerText.replace(/\s/g, "");
+
+            const nota = document
+              .querySelector(
+                `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(5)`
+              )
+              .innerText.replace(/\s/g, "");
+
+            const faltouSemestral = document
+              .querySelector(
+                `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(7)`
+              )
+              .innerText.replace(/\s/g, "");
+            
+            DadosUser.push({
+              dados: {
+                nome_Materia: nome_Materia,
+                nome_Professor: nome_Professor,
+                NOTAS: {
+                  grupo: grupo,
+                  data: data,
+                  avalicao: avalicao,
+                  peso: peso,
+                  nota: nota,
+                  faltouSemestral: faltouSemestral,
+                },
+              },
             });
-          } catch (error) {
-            console.log(error);
+            
           }
         }
+        
 
+        // var reduced = [];
 
-        return Materias_professor;
+        // DadosUser.forEach((element) => {
+        //   var duplicated =
+        //     reduced.findIndex((redItem) => {
+        //       return (
+        //         element.dados.nome_Professor.NOTAS ==
+        //         redItem.dados.nome_Professor.NOTAS
+        //       );
+        //     }) > -1;
+
+        //   if (!duplicated) {
+        //     reduced.push(element);
+        //   }
+        // });
+
+        return DadosUser;
+
+      } catch (error) {
+        return error.message;
+      }
     });
 
-  dados_api.push({ notas: notas_user, ano: ano_user, head_user: head_user });
 
-  console.log("=>>> valueNota =>> ", JSON.stringify(dados_api));
+
+  console.log("=>>> valueNota =>> ", JSON.stringify(notas_user));
 
   await browser.close();
 })();

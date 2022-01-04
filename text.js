@@ -1,44 +1,68 @@
-  const valueNota = await page.evaluate(() => {
-        try {
-             
-            return document.querySelector(
-            `#\\32 021-2 > ul > li:nth-child(1) > div.collapsible-body > table > tbody > tr:nth-child(1) > td:nth-child(1)`
-            ).textContent;
+// for (let i = 1; i < quantidade_de_materias + 1; i++) {
 
-         } catch (error) {
-            console.log(error.message);
-         }
-    })
+// const nome_Materia = document.querySelector(
+//   `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-header`
+// );
+// const nome_Professor = document
+//   .querySelector(
+//     `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > ul > li.collection-item.dismissable > div`
+//   )
+//   .innerText.replace(/\s/g, "");
 
+// const numeroNotas = document.querySelector(
+//   `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody`
+// ).rows.length;
 
-                document
-              .getElementById("2021-2")
-               .getElementsByClassName("collapsible-body").item(0).querySelector('td').innerHTML
+// for (let j = 1; j < numeroNotas + 1; j++) {
+// const grupo = document
+//   .querySelector(
+//     `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(1)`
+//   )
+//   .innerText.replace(/\s/g, "");
 
+// const data = document
+//   .querySelector(
+//     `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(2)`
+//   )
+//   .innerText.replace(/\s/g, "");
 
-var elemento = document
-.getElementById("2021-2")
-.getElementsByClassName("collapsible-body")
+// const avalicao = document
+//   .querySelector(
+//     `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(3)`
+//   )
+//   .innerText.replace(/\s/g, "");
 
-const grabFromRow = (row) =>
-row
-.querySelector(`${row}`) // grab the TD
-.innerText // grab the text
-.trim();  
+// const peso = document
+//   .querySelector(
+//     `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(4)`
+//   )
+//   .innerText.replace(/\s/g, "");
 
-const retornaDados = (interador) => {
-const teste = document
-    .getElementById("2021-2")
-    .getElementsByClassName("collapsible-body")
-    .item(interador)
-    .querySelector("td").innerHTML;
-return teste
-}
+// const nota = document
+//   .querySelector(
+//     `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(5)`
+//   )
+//   .innerText.replace(/\s/g, "");
 
-for (let i = 1; i < 10; i++) {
-dados.push({
-name: retornaDados(i),
-});
-}
+// const faltouSemestral = document
+//   .querySelector(
+//     `#\\32 021-2 > ul > li:nth-child(${i}) > div.collapsible-body > table > tbody > tr:nth-child(${j}) > td:nth-child(7)`
+//   )
+//   .innerText.replace(/\s/g, "");
 
-return dados;
+// DadosUser.push(
+//   (dados = {
+//     nome_Materia: nome_Materia,
+//     nome_Professor: nome_Professor,
+//     NOTAS: {
+//       grupo: grupo,
+//       data: data,
+//       avalicao: avalicao,
+//       peso: peso,
+//       nota: nota,
+//       faltouSemestral: faltouSemestral,
+//     },
+//   })
+// );
+// }
+// }
